@@ -1,0 +1,43 @@
+ANALISI FANTACALCIO
+
+
+LIGUAGGI / APPLICATIVI UTILIZZATI: PHP, MYSQL, HTML, BOOTSTRAP
+
+
+
+REQUISITI e VINCOLI:
+-multiutente
+-un solo campionato
+-un utente collegato a una singola squadra
+-asta iniziale con controllo conclusione(non può essere interrotta e ripresa successivamente)
+-calciatori della serie A
+-rose da 15 giocatori
+-un calciatore può appartenere a una sola squadra
+-creazione giornate(random, 1 per giornata di campionato)
+-inserimento formazione prima di una singola giornata, in alternativa verrà inserita la formazione della giornata precedente
+-inserimento dei punteggi giocatori per ogni giornata
+-vincitore giornata 3pt, pareggio 1pt, sconfitta 0pt
+-classifica generale
+
+
+FUNZIONALITÀ player 
+-creare un profilo utente.
+-creare un propria squadra.
+-squadra con 15 giocatori.
+-login per effettuare qualsiasi azione
+
+
+ASTA:
+-i player devono loggarsi
+-ogni player può fare offerte per un calciatore presente sul DB e fare un’offerta, a seguito verrà chiesto agli altri giocatori di fare un’offerta, in caso qualcuno offra più del primo si ripartirà con le offerte fino a quando nessuno farà più offerte.
+-ogni player avrà a disposizione 1000 crediti.
+-un player non potrà più partecipare all’asta corrente qualora abbia finito i crediti, oppure  qualora abbia già scelto 15 calciatori.
+
+
+
+SCONTRO:
+-è il singolo scontro tra 2 player in una determinata giornata, dunque più scontri possono far riferimento alla stessa giornata:
+-contiene: ID, n giornata, id squadra 1,  id squadra 2, punti s1, punti s2, ?vincitore?.
+-in ogni giornata dovranno essere inseriti i punteggi dei singoli player
+-potrà essere effettuato da un qualsiasi player
+-conteggio punti e aggiornamento dopo ogni giornata(avverrà dopo aver inserito i punteggi dei calciatori)
