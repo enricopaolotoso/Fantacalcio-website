@@ -6,3 +6,20 @@ nav ul li {display: inline-block;width: 100px;}
  .navbar-brand{
     padding-left: 10;
  }
+
+ body{
+   width: 400vw;
+ }
+ 
+ ::-webkit-scrollbar{
+   width: 20px;
+ }
+ 
+ ::-webkit-scrollbar-track{
+   background: white;
+ }
+
+
+ ::-webkit-scrollbar-thumb{
+   background: red;
+ }
