@@ -1,70 +1,67 @@
 create database fantacalcio;
-use fantacalcio;
 
-create table user(
-id INT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
-name varchar(64) not null,
-surname varchar(64) not null,
-email varchar(128) not null,
-credits int default (1000));
-
-create table team(
-id INT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
-id_user int UNSIGNED NOT NULL,
-name varchar(64),
-points int default(0)
+create table fantacalcio.`user`(
+id 					INT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
+nickname            VARCHAR(64)  NOT null,
+pw 					VARCHAR(256) not null,
+active				BOOLEAN  NOT NULL DEFAULT (TRUE) 
 );
 
-ALTER TABLE fantacalcio.team 
-ADD CONSTRAINT FK_user
-FOREIGN KEY (id_user) REFERENCES fantacalcio.user(id);
-
-create table football_player(
-id INT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
-name varchar(64),
-team varchar(64),
-role int,
-state bool
+create table fantacalcio.squad(
+id					INT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY key,
+name 				VARCHAR(30) not NULL,
+id_user 			INT UNSIGNED NOT null,
+score				INT not null DEFAULT(0)
 );
 
-create table squad(
-id_team int unsigned not null,
-id_foot int unsigned not null
+create table fantacalcio.league(
+id					INT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY key,
+name 				VARCHAR(30) not NULL,
+id_trustee			INT UNSIGNED NOT null,
+status              INT not null DEFAULT(0)
 );
 
-alter table squad add constraint fk_team foreign key (id_team) references team(id);
-alter table squad add constraint fk_foot foreign key (id_foot) references football_player(id);
-alter table squad add constraint pk_tf primary key (id_team,id_foot);
-
-
-create table day(
-id int unsigned  AUTO_INCREMENT  PRIMARY key,
-description varchar(70),
-game_date date,
-played bool default(false)
+create table fantacalcio.squad_league(
+id					INT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY key,
+id_squad			INT UNSIGNED NOT null,
+id_league			INT UNSIGNED NOT null
 );
 
-create table game(
-id_day int unsigned not null,
-id_team1 int unsigned not null,
-id_team2 int unsigned not null,
-points_p1 int default(0),
-points_p2 int default(0)
+create table fantacalcio.rosa(
+id					INT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
+id_squad			INT UNSIGNED NOT null,
+id_league			INT UNSIGNED NOT null,
+id_player			INT UNSIGNED NOT null
 );
 
-alter table game add constraint fk_day foreign key (id_day) references day(id);
-alter table game add constraint fk_team1 foreign key (id_team1) references team(id);
-alter table game add constraint fk_team2 foreign key (id_team2) references team(id);
-alter table game add constraint pk primary key (id_day, id_team1, id_team2);
-
-create table formation(
-id_gameDay int unsigned not null,
-id_foot int unsigned not null,
-id_team int unsigned not null,
-points int default (0)
+create table fantacalcio.player(
+id 					INT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,	
+surname				VARCHAR(30) not NULL,
+`role`				VARCHAR(30) not NULL
 );
 
-alter table formation add constraint fk_game foreign key (id_gameDay) references game(id_day);
-alter table formation add constraint fk_foot2 foreign key (id_foot) references football_player(id);
-alter table formation add constraint fk_team3 foreign key (id_team) references team(id);
-alter table formation add constraint pk_form primary key (id_gameDay, id_foot, id_team);
+create table fantacalcio.`match`(
+id 					INT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
+number_match 		int not null,
+id_squad			INT UNSIGNED not null,
+score				INT not null,
+id_league			INT UNSIGNED NOT null
+);
+
+ALTER TABLE fantacalcio.squad ADD CONSTRAINT fk_user_squad FOREIGN KEY ( id_user ) REFERENCES fantacalcio.`user` ( id );
+
+ALTER TABLE fantacalcio.league ADD CONSTRAINT fk_user_league FOREIGN KEY ( id_trustee ) REFERENCES fantacalcio.`user` ( id );
+
+ALTER TABLE fantacalcio.rosa ADD CONSTRAINT fk_squad_rosa FOREIGN KEY ( id_squad ) REFERENCES fantacalcio.squad ( id );
+
+ALTER TABLE fantacalcio.rosa ADD CONSTRAINT fk_player_rosa FOREIGN KEY ( id_player ) REFERENCES fantacalcio.player ( id );
+
+ALTER TABLE fantacalcio.rosa ADD CONSTRAINT fk_league_rosa FOREIGN KEY ( id_league ) REFERENCES fantacalcio.league ( id );
+
+ALTER TABLE fantacalcio.`match` ADD CONSTRAINT fk_match_squad FOREIGN KEY ( id_squad ) REFERENCES fantacalcio.squad ( id );
+
+ALTER TABLE fantacalcio.`match` ADD CONSTRAINT fk_match_league FOREIGN KEY ( id_league ) REFERENCES fantacalcio.league ( id );
+
+ALTER TABLE fantacalcio.squad_league ADD CONSTRAINT fk_squad_squad FOREIGN KEY ( id_squad ) REFERENCES fantacalcio.squad ( id );
+
+ALTER TABLE fantacalcio.squad_league ADD CONSTRAINT fk_league_league FOREIGN KEY ( id_league ) REFERENCES fantacalcio.league ( id );
